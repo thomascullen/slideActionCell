@@ -9,7 +9,7 @@
 #import "SlideActionCell.h"
 
 @implementation SlideActionCell
-#define cellHeight 60
+#define cellHeight 70
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -25,7 +25,8 @@
         self.mainView.backgroundColor = [UIColor clearColor];
         [wrapperView addSubview:self.mainView];
         
-        self.title = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, self.mainView.frame.size.width, cellHeight)];
+        self.title = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, self.mainView.frame.size.width - 20, cellHeight)];
+        [self.title setFont:[UIFont fontWithName:@"Helvetica-Bold" size:18]];
         [self.mainView addSubview:self.title];
         
         self.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);

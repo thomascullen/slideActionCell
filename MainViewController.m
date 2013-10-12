@@ -91,20 +91,28 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 60;
+    return 70;
 }
 
 -(void)cellTriggeredLeftAction:(SlideActionCell *)cell{
     NSLog(@"Left Action Triggered from %@", cell.title.text);
-    cell.title.text = @"Left Action Triggered";
-    cell.leftActionView.backgroundColor = [UIColor colorWithRed:0.529 green:0.855 blue:0.318 alpha:1];
+    
+    if ( [cell.title.text  isEqual: @"Complete"]){
+        cell.title.text = @"Not Complete";
+        cell.leftActionView.backgroundColor = [UIColor colorWithRed:0.529 green:0.855 blue:0.318 alpha:1];
+    }else{
+        cell.title.text = @"Complete";
+        cell.leftActionView.backgroundColor = [UIColor colorWithRed:0.922 green:0.373 blue:0.286 alpha:1];
+    }
+    
 }
 
 -(void)cellTriggeredRightAction:(SlideActionCell *)cell{
     NSLog(@"Right Action Triggered from %@", cell.title.text);
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     [self.tableData removeObjectAtIndex:indexPath.row];
-    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:YES];
+    
+
 }
 
 @end

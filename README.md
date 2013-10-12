@@ -56,7 +56,8 @@ The Delegate ( SlideActionCellDelegate ) has two required methods for when the l
 
 ##Note
 
-I started this to teach myself the concept. Please feel free to fork improve!
+I started this to teach myself the concept. If you run into any issues please log them here
+https://github.com/Thomascullen92/slideActionCell/issues
 
 ## Licence
 
