@@ -9,7 +9,6 @@
 #import "SlideActionCell.h"
 
 @implementation SlideActionCell
-#define DragDist 100.0
 #define cellHeight 60
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -51,31 +50,67 @@
 
 -(void)addLeftAction:(NSString *)aTitle
                color:(UIColor *)color
-           textColor:(UIColor *)textColor{
-    leftActionView = [[UIView alloc] initWithFrame:CGRectMake(0 - DragDist, 0, DragDist, self.mainView.frame.size.height)];
-    leftActionView.backgroundColor = color;
-    [wrapperView addSubview:leftActionView];
+           textColor:(UIColor *)textColor
+               width:(float)aWidth{
+    self.leftActionView = [[UIView alloc] initWithFrame:CGRectMake(0 - aWidth, 0, aWidth, self.mainView.frame.size.height)];
+    self.leftActionView.backgroundColor = color;
+    [wrapperView addSubview:self.leftActionView];
     
-    leftActionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, leftActionView.frame.size.width, self.mainView.frame.size.height)];
-    leftActionLabel.text = aTitle;
-    leftActionLabel.textAlignment = NSTextAlignmentCenter;
-    leftActionLabel.textColor = textColor;
-    [leftActionView addSubview:leftActionLabel];
+    leftActionWidth = aWidth;
+
+    self.leftActionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, aWidth, self.mainView.frame.size.height)];
+    self.leftActionLabel.text = aTitle;
+    self.leftActionLabel.textAlignment = NSTextAlignmentCenter;
+    self.leftActionLabel.textColor = textColor;
+    [self.leftActionView addSubview:self.leftActionLabel];
     
+}
+
+-(void)addLeftActionImage:(UIImage *)anImage
+                    color:(UIColor *)color
+                    width:(float)aWidth{
+    self.leftActionView = [[UIView alloc] initWithFrame:CGRectMake(0 - aWidth, 0, aWidth, self.mainView.frame.size.height)];
+    self.leftActionView.backgroundColor = color;
+    [wrapperView addSubview:self.leftActionView];
+    
+    leftActionWidth = aWidth;
+
+    self.leftActionImage = [[UIImageView alloc] initWithImage:anImage];
+    self.leftActionImage.frame = CGRectMake(0, 0, aWidth, self.leftActionView.frame.size.height);
+    self.leftActionImage.contentMode = UIViewContentModeCenter;
+    [self.leftActionView addSubview:self.leftActionImage];
 }
 
 -(void)addRightAction:(NSString *)aTitle
                 color:(UIColor *)color
-            textColor:(UIColor *)textColor{
-    rightActionView = [[UIView alloc] initWithFrame:CGRectMake(self.frame.size.width, 0, DragDist, self.mainView.frame.size.height)];
-    rightActionView.backgroundColor = color;
-    [wrapperView addSubview:rightActionView];
+            textColor:(UIColor *)textColor
+                width:(float)aWidth{
+    self.rightActionView = [[UIView alloc] initWithFrame:CGRectMake(self.frame.size.width, 0, aWidth, self.mainView.frame.size.height)];
+    self.rightActionView.backgroundColor = color;
+    [wrapperView addSubview:self.rightActionView];
     
-    rightActionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, rightActionView.frame.size.width, self.mainView.frame.size.height)];
-    rightActionLabel.text = aTitle;
-    rightActionLabel.textAlignment = NSTextAlignmentCenter;
-    rightActionLabel.textColor = textColor;
-    [rightActionView addSubview:rightActionLabel];
+    rightActionWidth = aWidth;
+    
+    self.rightActionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, aWidth, self.mainView.frame.size.height)];
+    self.rightActionLabel.text = aTitle;
+    self.rightActionLabel.textAlignment = NSTextAlignmentCenter;
+    self.rightActionLabel.textColor = textColor;
+    [self.rightActionView addSubview:self.rightActionLabel];
+}
+
+-(void)addRightActionImage:(UIImage *)anImage
+                    color:(UIColor *)color
+                    width:(float)aWidth{
+    self.rightActionView = [[UIView alloc] initWithFrame:CGRectMake(self.frame.size.width, 0, aWidth, self.mainView.frame.size.height)];
+    self.rightActionView.backgroundColor = color;
+    [wrapperView addSubview:self.rightActionView];
+    
+    rightActionWidth = aWidth;
+    
+    self.rightActionImage = [[UIImageView alloc] initWithImage:anImage];
+    self.rightActionImage.frame = CGRectMake(0, 0, aWidth, self.rightActionView.frame.size.height);
+    self.rightActionImage.contentMode = UIViewContentModeCenter;
+    [self.rightActionView addSubview:self.rightActionImage];
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
@@ -94,32 +129,32 @@
         
         UITableView *parentTableView = [self parentTableView];
         
-        if (touchPoint.x > firstTouch.x && leftActionView != nil) {
+        if (touchPoint.x > firstTouch.x && self.leftActionView != nil) {
             [parentTableView setScrollEnabled:NO];
             xPos = touchPoint.x - firstTouch.x;
-            if (xPos > DragDist) {
-                xPos = DragDist;
+            if (xPos > leftActionWidth) {
+                xPos = leftActionWidth;
             }
             if (xPos <= 0) {
                 xPos = 0;
             }
-            tint.backgroundColor = leftActionView.backgroundColor;
-            tint.alpha = (xPos / DragDist) / 15;
-            leftActionView.alpha = xPos / DragDist;
+            tint.backgroundColor = self.leftActionView.backgroundColor;
+            tint.alpha = (xPos / leftActionWidth) / 15;
+            self.leftActionView.alpha = xPos / leftActionWidth;
         }
         
-        if (touchPoint.x < firstTouch.x && rightActionView != nil){
+        if (touchPoint.x < firstTouch.x && self.rightActionView != nil){
             [parentTableView setScrollEnabled:NO];
             xPos = -(firstTouch.x - touchPoint.x);
-            if (xPos < -DragDist) {
-                xPos = -DragDist;
+            if (xPos < -rightActionWidth) {
+                xPos = -rightActionWidth;
             }
             if (xPos >= 0) {
                 xPos = 0;
             }
-            tint.backgroundColor = rightActionView.backgroundColor;
-            tint.alpha = (fabsf(xPos) / DragDist) / 15;
-            rightActionView.alpha = fabsf(xPos) / DragDist;
+            tint.backgroundColor = self.rightActionView.backgroundColor;
+            tint.alpha = (fabsf(xPos) / rightActionWidth) / 15;
+            self.rightActionView.alpha = fabsf(xPos) / rightActionWidth;
         }
         
         frame.origin = CGPointMake(xPos, 0);
@@ -142,17 +177,17 @@
     tint.backgroundColor = [UIColor clearColor];
     CGRect frame = wrapperView.frame;
     
-    if (frame.origin.x > DragDist - 10 ){
+    if (frame.origin.x > leftActionWidth - 10 ){
         [delegate cellTriggeredLeftAction:self];
     }
     
-    if (frame.origin.x < -DragDist + 10){
+    if (frame.origin.x < -rightActionWidth + 10){
         [delegate cellTriggeredRightAction:self];
     }
     
     frame.origin = CGPointMake(0, 0);
     
-    [UIView animateWithDuration:0.1
+    [UIView animateWithDuration:0.2
                           delay: 0.0
                         options: UIViewAnimationOptionCurveEaseOut
                      animations:^{

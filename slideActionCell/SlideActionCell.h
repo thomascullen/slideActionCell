@@ -21,15 +21,9 @@
     CGPoint firstTouch;
     UIView *wrapperView;
     UIView *tint;
-    
-    UIView *leftActionView;
-    UILabel *leftActionLabel;
-    
-    UIView *rightActionView;
-    UILabel *rightActionLabel;
-    
     BOOL canSlide;
-    
+    float leftActionWidth;
+    float rightActionWidth;
     id <SlideActionCellDelegate> delegate;
     
 }
@@ -37,15 +31,33 @@
 @property (strong, nonatomic) UIView *mainView;
 @property (strong, nonatomic) UILabel *title;
 
+@property (strong, nonatomic) UIView *leftActionView;
+@property (strong, nonatomic) UILabel *leftActionLabel;
+@property (strong, nonatomic) UIImageView *leftActionImage;
+
+@property (strong, nonatomic) UIView *rightActionView;
+@property (strong, nonatomic) UILabel *rightActionLabel;
+@property (strong, nonatomic) UIImageView *rightActionImage;
+
 -(void)setText:(NSString *)text;
 -(void)setDelegate:(id)aDelegate;
 
 -(void)addLeftAction:(NSString *)aTitle
                color:(UIColor *)color
-           textColor:(UIColor *)textColor;
+           textColor:(UIColor *)textColor
+               width:(float)aWidth;
+
+-(void)addLeftActionImage:(UIImage *)anImage
+                    color:(UIColor *)color
+                    width:(float)aWidth;
 
 -(void)addRightAction:(NSString *)aTitle
                color:(UIColor *)color
-            textColor:(UIColor *)textColor;
+            textColor:(UIColor *)textColor
+                width:(float)aWidth;
+
+-(void)addRightActionImage:(UIImage *)anImage
+                    color:(UIColor *)color
+                    width:(float)aWidth;
 
 @end

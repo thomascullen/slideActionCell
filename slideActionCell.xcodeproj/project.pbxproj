@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		353100E01809FBBD00DD1B81 /* tick.png in Resources */ = {isa = PBXBuildFile; fileRef = 353100DF1809FBBD00DD1B81 /* tick.png */; };
 		3593D8611809DF29002B40AF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3593D8601809DF29002B40AF /* Foundation.framework */; };
 		3593D8631809DF29002B40AF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3593D8621809DF29002B40AF /* CoreGraphics.framework */; };
 		3593D8651809DF29002B40AF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3593D8641809DF29002B40AF /* UIKit.framework */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		353100DF1809FBBD00DD1B81 /* tick.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tick.png; sourceTree = "<group>"; };
 		3593D85D1809DF29002B40AF /* slideActionCell.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = slideActionCell.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3593D8601809DF29002B40AF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3593D8621809DF29002B40AF /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -115,6 +117,7 @@
 		3593D8661809DF29002B40AF /* slideActionCell */ = {
 			isa = PBXGroup;
 			children = (
+				353100DF1809FBBD00DD1B81 /* tick.png */,
 				3593D8911809DF55002B40AF /* MainViewController.h */,
 				3593D8921809DF55002B40AF /* MainViewController.m */,
 				3593D86F1809DF29002B40AF /* AppDelegate.h */,
@@ -234,6 +237,7 @@
 			files = (
 				3593D86B1809DF29002B40AF /* InfoPlist.strings in Resources */,
 				3593D8731809DF29002B40AF /* Images.xcassets in Resources */,
+				353100E01809FBBD00DD1B81 /* tick.png in Resources */,
 				3593D8901809DF3D002B40AF /* Storyboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -457,6 +461,7 @@
 				3593D88B1809DF2A002B40AF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3593D88C1809DF2A002B40AF /* Build configuration list for PBXNativeTarget "slideActionCellTests" */ = {
 			isa = XCConfigurationList;
@@ -465,6 +470,7 @@
 				3593D88E1809DF2A002B40AF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

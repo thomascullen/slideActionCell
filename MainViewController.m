@@ -65,13 +65,25 @@
     
     [cell setText:self.tableData[indexPath.row]];
     
-    [cell addLeftAction:@"YES"
-                  color:[UIColor colorWithRed:0.529 green:0.855 blue:0.318 alpha:1]
-              textColor:[UIColor whiteColor]];
+    if (indexPath.row == 2){
+        
+        [cell addLeftActionImage:[UIImage imageNamed:@"tick"]
+                           color:[UIColor colorWithRed:0.157 green:0.761 blue:0.839 alpha:1]
+                           width:80];
+        
+    }else{
+        
+        [cell addLeftAction:@"YES"
+                      color:[UIColor colorWithRed:0.157 green:0.761 blue:0.839 alpha:1]
+                  textColor:[UIColor whiteColor]
+                      width:100];
+
+    }
     
     [cell addRightAction:@"DELETE"
                    color:[UIColor colorWithRed:0.922 green:0.373 blue:0.286 alpha:1]
-               textColor:[UIColor whiteColor]];
+               textColor:[UIColor whiteColor]
+                   width:100];
     
     [cell setDelegate:self];
     
@@ -82,12 +94,10 @@
     return 60;
 }
 
--(void)test{
-    NSLog(@"TESTED");
-}
-
 -(void)cellTriggeredLeftAction:(SlideActionCell *)cell{
     NSLog(@"Left Action Triggered from %@", cell.title.text);
+    cell.title.text = @"Left Action Triggered";
+    cell.leftActionView.backgroundColor = [UIColor colorWithRed:0.529 green:0.855 blue:0.318 alpha:1];
 }
 
 -(void)cellTriggeredRightAction:(SlideActionCell *)cell{
