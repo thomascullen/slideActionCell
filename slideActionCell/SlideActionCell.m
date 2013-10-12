@@ -45,6 +45,10 @@
     self.title.text = text;
 }
 
+-(void)setDelegate:(id)aDelegate{
+    delegate = aDelegate;
+}
+
 -(void)addLeftAction:(NSString *)aTitle
                color:(UIColor *)color
            textColor:(UIColor *)textColor{
@@ -57,6 +61,7 @@
     leftActionLabel.textAlignment = NSTextAlignmentCenter;
     leftActionLabel.textColor = textColor;
     [leftActionView addSubview:leftActionLabel];
+    
 }
 
 -(void)addRightAction:(NSString *)aTitle
@@ -138,11 +143,11 @@
     CGRect frame = wrapperView.frame;
     
     if (frame.origin.x > DragDist - 10 ){
-        [self performSelector:@selector(leftAction)];
+        [delegate cellTriggeredLeftAction:self];
     }
     
     if (frame.origin.x < -DragDist + 10){
-        [self performSelector:@selector(rightAction)];
+        [delegate cellTriggeredRightAction:self];
     }
     
     frame.origin = CGPointMake(0, 0);
@@ -158,14 +163,6 @@
                          [parentTableView setScrollEnabled:YES];
                          canSlide = YES;
                      }];
-}
-
--(void)leftAction{
-    NSLog(@"Left Action");
-}
-
--(void)rightAction{
-    NSLog(@"Right Action");
 }
 
 - (id)parentTableView {

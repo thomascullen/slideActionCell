@@ -8,6 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+@class SlideActionCell;
+@protocol SlideActionCellDelegate <NSObject>
+
+@required
+-(void)cellTriggeredLeftAction:(SlideActionCell *)cell;
+-(void)cellTriggeredRightAction:(SlideActionCell *)cell;
+
+@end
+
 @interface SlideActionCell : UITableViewCell{
     CGPoint firstTouch;
     UIView *wrapperView;
@@ -21,12 +30,15 @@
     
     BOOL canSlide;
     
+    id <SlideActionCellDelegate> delegate;
+    
 }
 
 @property (strong, nonatomic) UIView *mainView;
 @property (strong, nonatomic) UILabel *title;
 
 -(void)setText:(NSString *)text;
+-(void)setDelegate:(id)aDelegate;
 
 -(void)addLeftAction:(NSString *)aTitle
                color:(UIColor *)color
