@@ -17,19 +17,18 @@
 
 @end
 
-@interface SlideActionCell : UITableViewCell{
-    CGPoint firstTouch;
-    UIView *wrapperView;
-    UIView *tint;
-    BOOL canSlide;
+@interface SlideActionCell : UITableViewCell <UIScrollViewDelegate> {
+    UIScrollView *wrapperView;
     float leftActionWidth;
     float rightActionWidth;
     id <SlideActionCellDelegate> delegate;
-    
+    bool fadeEffect;
+    bool tintEffect;
 }
 
 @property (strong, nonatomic) UIView *mainView;
 @property (strong, nonatomic) UILabel *title;
+@property (strong, nonatomic) UIView *tint;
 
 @property (strong, nonatomic) UIView *leftActionView;
 @property (strong, nonatomic) UILabel *leftActionLabel;
@@ -60,4 +59,8 @@
                     color:(UIColor *)color
                     width:(float)aWidth;
 
+-(void)addFadeEffect;
+-(void)removeFadeEffect;
+-(void)addTintEffect;
+-(void)removeTintEffect;
 @end

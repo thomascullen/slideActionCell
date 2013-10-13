@@ -1,4 +1,4 @@
-//
+ //
 //  SlideActionCell.m
 //  slideActionCell
 //
@@ -14,22 +14,27 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        wrapperView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, cellHeight)];
-        [self addSubview:wrapperView];
-        
-        tint = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, cellHeight)];
-        tint.backgroundColor = [UIColor whiteColor];
-        [wrapperView addSubview:tint];
+        UIScrollView *cellScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, cellHeight)];
+        cellScrollView.contentSize = CGSizeMake(self.frame.size.width, cellHeight);
+        cellScrollView.showsHorizontalScrollIndicator = NO;
+        cellScrollView.delegate = self;
+        wrapperView = cellScrollView;
+        [self.contentView addSubview:wrapperView];
         
         self.mainView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, cellHeight)];
         self.mainView.backgroundColor = [UIColor clearColor];
         [wrapperView addSubview:self.mainView];
         
+        self.tint = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, cellHeight)];
+        self.tint.backgroundColor = [UIColor whiteColor];
+        [self.mainView addSubview:self.tint];
+
         self.title = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, self.mainView.frame.size.width - 20, cellHeight)];
         [self.title setFont:[UIFont fontWithName:@"Helvetica-Bold" size:18]];
         [self.mainView addSubview:self.title];
-        
+
         self.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
+        
     }
     return self;
 }
@@ -39,6 +44,16 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+- (id)parentTableView {
+    UIView *v = [self superview];
+    UIView *previous = nil;
+    while (v && ![v isKindOfClass:[UITableView class]] && v != previous) {
+        previous = v;
+        v = [v superview];
+    }
+    return v == previous ? nil : v;
 }
 
 -(void)setText:(NSString *)text{
@@ -53,7 +68,7 @@
                color:(UIColor *)color
            textColor:(UIColor *)textColor
                width:(float)aWidth{
-    self.leftActionView = [[UIView alloc] initWithFrame:CGRectMake(0 - aWidth, 0, aWidth, self.mainView.frame.size.height)];
+    self.leftActionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, aWidth, self.mainView.frame.size.height)];
     self.leftActionView.backgroundColor = color;
     [wrapperView addSubview:self.leftActionView];
     
@@ -65,28 +80,18 @@
     self.leftActionLabel.textColor = textColor;
     [self.leftActionView addSubview:self.leftActionLabel];
     
-}
-
--(void)addLeftActionImage:(UIImage *)anImage
-                    color:(UIColor *)color
-                    width:(float)aWidth{
-    self.leftActionView = [[UIView alloc] initWithFrame:CGRectMake(0 - aWidth, 0, aWidth, self.mainView.frame.size.height)];
-    self.leftActionView.backgroundColor = color;
-    [wrapperView addSubview:self.leftActionView];
+    wrapperView.contentSize = CGSizeMake(wrapperView.frame.size.width + aWidth, cellHeight);
+    wrapperView.contentOffset = CGPointMake(aWidth, 0);
     
-    leftActionWidth = aWidth;
-
-    self.leftActionImage = [[UIImageView alloc] initWithImage:anImage];
-    self.leftActionImage.frame = CGRectMake(0, 0, aWidth, self.leftActionView.frame.size.height);
-    self.leftActionImage.contentMode = UIViewContentModeCenter;
-    [self.leftActionView addSubview:self.leftActionImage];
+    self.mainView.frame = CGRectMake(aWidth, 0, self.frame.size.width, cellHeight);
+    
 }
 
 -(void)addRightAction:(NSString *)aTitle
                 color:(UIColor *)color
             textColor:(UIColor *)textColor
                 width:(float)aWidth{
-    self.rightActionView = [[UIView alloc] initWithFrame:CGRectMake(self.frame.size.width, 0, aWidth, self.mainView.frame.size.height)];
+    self.rightActionView = [[UIView alloc] initWithFrame:CGRectMake(wrapperView.contentSize.width, 0, aWidth, self.mainView.frame.size.height)];
     self.rightActionView.backgroundColor = color;
     [wrapperView addSubview:self.rightActionView];
     
@@ -97,12 +102,35 @@
     self.rightActionLabel.textAlignment = NSTextAlignmentCenter;
     self.rightActionLabel.textColor = textColor;
     [self.rightActionView addSubview:self.rightActionLabel];
+    
+    wrapperView.contentSize = CGSizeMake(wrapperView.contentSize.width + aWidth, cellHeight);
+}
+
+-(void)addLeftActionImage:(UIImage *)anImage
+                    color:(UIColor *)color
+                    width:(float)aWidth{
+    self.leftActionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, aWidth, self.mainView.frame.size.height)];
+    self.leftActionView.backgroundColor = color;
+    [wrapperView addSubview:self.leftActionView];
+    
+    leftActionWidth = aWidth;
+    
+    self.leftActionImage = [[UIImageView alloc] initWithImage:anImage];
+    self.leftActionImage.frame = CGRectMake(0, 0, aWidth, self.leftActionView.frame.size.height);
+    self.leftActionImage.contentMode = UIViewContentModeCenter;
+    [self.leftActionView addSubview:self.leftActionImage];
+        
+    wrapperView.contentSize = CGSizeMake(wrapperView.frame.size.width + aWidth, cellHeight);
+    wrapperView.contentOffset = CGPointMake(aWidth, 0);
+    
+    self.mainView.frame = CGRectMake(aWidth, 0, self.frame.size.width, cellHeight);
+
 }
 
 -(void)addRightActionImage:(UIImage *)anImage
                     color:(UIColor *)color
                     width:(float)aWidth{
-    self.rightActionView = [[UIView alloc] initWithFrame:CGRectMake(self.frame.size.width, 0, aWidth, self.mainView.frame.size.height)];
+    self.rightActionView = [[UIView alloc] initWithFrame:CGRectMake(wrapperView.contentSize.width, 0, aWidth, self.mainView.frame.size.height)];
     self.rightActionView.backgroundColor = color;
     [wrapperView addSubview:self.rightActionView];
     
@@ -112,103 +140,110 @@
     self.rightActionImage.frame = CGRectMake(0, 0, aWidth, self.rightActionView.frame.size.height);
     self.rightActionImage.contentMode = UIViewContentModeCenter;
     [self.rightActionView addSubview:self.rightActionImage];
-}
-
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
-    UITouch *touch = [touches anyObject];
-    firstTouch = [touch locationInView:self];
-}
-
--(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
     
-    if (canSlide == YES){
-        UITouch *touch = [touches anyObject];
-        CGPoint touchPoint = [touch locationInView:self];
-        
-        CGRect frame = wrapperView.frame;
-        CGFloat xPos;
-        
-        UITableView *parentTableView = [self parentTableView];
-        
-        if (touchPoint.x > firstTouch.x && self.leftActionView != nil) {
-            [parentTableView setScrollEnabled:NO];
-            xPos = touchPoint.x - firstTouch.x;
-            if (xPos > leftActionWidth) {
-                xPos = leftActionWidth;
-            }
-            if (xPos <= 0) {
-                xPos = 0;
-            }
-            tint.backgroundColor = self.leftActionView.backgroundColor;
-            tint.alpha = (xPos / leftActionWidth) / 15;
-            self.leftActionView.alpha = xPos / leftActionWidth;
-        }
-        
-        if (touchPoint.x < firstTouch.x && self.rightActionView != nil){
-            [parentTableView setScrollEnabled:NO];
-            xPos = -(firstTouch.x - touchPoint.x);
-            if (xPos < -rightActionWidth) {
-                xPos = -rightActionWidth;
-            }
-            if (xPos >= 0) {
-                xPos = 0;
-            }
-            tint.backgroundColor = self.rightActionView.backgroundColor;
-            tint.alpha = (fabsf(xPos) / rightActionWidth) / 15;
-            self.rightActionView.alpha = fabsf(xPos) / rightActionWidth;
-        }
-        
-        frame.origin = CGPointMake(xPos, 0);
-        wrapperView.frame = frame;
+    wrapperView.contentSize = CGSizeMake(wrapperView.contentSize.width + aWidth, cellHeight);
+}
+
+-(void)addFadeEffect{
+    fadeEffect = YES;
+}
+
+-(void)removeFadeEffect{
+    fadeEffect = NO;
+}
+
+-(void)addTintEffect{
+    tintEffect = YES;
+}
+
+-(void)removeTintEffect{
+    tintEffect = NO;
+}
+
+-(CGPoint)calculateOffset{
+    CGFloat resetContentOffset;
+    if ( self.leftActionView ){
+        resetContentOffset = self.leftActionView.frame.size.width;
+    }else{
+        resetContentOffset = 0;
     }
+    return CGPointMake(resetContentOffset, 0);
 }
 
--(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    [self springBack];
-}
-
-
--(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
-    [self springBack];
-}
-
-
--(void)springBack {
-    canSlide = NO;
-    tint.backgroundColor = [UIColor clearColor];
-    CGRect frame = wrapperView.frame;
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    CGPoint contentOffset = wrapperView.contentOffset;
+    if ( self.leftActionView && contentOffset.x < self.leftActionView.frame.size.width){
+        wrapperView.backgroundColor = self.leftActionView.backgroundColor;
+        if ( fadeEffect == YES){
+            if(contentOffset.x > 0){
+                CGFloat percentage = (leftActionWidth / contentOffset.x) / 10;
+                self.leftActionView.alpha = percentage;
+                wrapperView.backgroundColor = [wrapperView.backgroundColor colorWithAlphaComponent:percentage];
+            }else{
+                self.leftActionView.alpha = 1;
+                wrapperView.backgroundColor = [wrapperView.backgroundColor colorWithAlphaComponent:1];
+            }
+        }
+    }else{
+        wrapperView.backgroundColor = self.rightActionView.backgroundColor;
+        if ( fadeEffect == YES ){
+            CGFloat percentage = (contentOffset.x - [self calculateOffset].x) / rightActionWidth;
+            self.rightActionView.alpha = percentage;
+            wrapperView.backgroundColor = [wrapperView.backgroundColor colorWithAlphaComponent:percentage];
+        }
+    }
     
-    if (frame.origin.x > leftActionWidth - 10 ){
+    if ( tintEffect == YES ){
+           self.tint.layer.opacity = .9;
+    }
+    
+    // Prevent right scroll bob if no right action is set
+    if (!self.rightActionView && contentOffset.x > leftActionWidth){
+        [wrapperView setContentOffset:[self calculateOffset]];
+    }
+    
+    // Prevent Left scroll bob is no left action is set
+    if (!self.leftActionView && contentOffset.x < 0){
+        [wrapperView setContentOffset:[self calculateOffset]];
+    }
+    
+}
+
+-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    CGFloat resetContentOffset;
+    
+    if ( self.leftActionView ){
+        resetContentOffset = self.leftActionView.frame.size.width;
+    }else{
+        resetContentOffset = 0;
+    }
+    
+    [wrapperView setContentOffset:CGPointMake(resetContentOffset, 0) animated:YES];
+}
+
+-(void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView{
+    [self calculateAction];
+}
+
+-(void)calculateAction{
+    CGFloat resetContentOffset;
+    CGPoint contentOffset = wrapperView.contentOffset;
+    
+    if ( self.leftActionView ){
+        resetContentOffset = self.leftActionView.frame.size.width;
+    }else{
+        resetContentOffset = 0;
+    }
+    
+    if ( self.leftActionView && contentOffset.x < 0){
         [delegate cellTriggeredLeftAction:self];
     }
     
-    if (frame.origin.x < -rightActionWidth + 10){
+    if ( self.rightActionView && contentOffset.x > (resetContentOffset + rightActionWidth)){
         [delegate cellTriggeredRightAction:self];
     }
     
-    frame.origin = CGPointMake(0, 0);
-    
-    [UIView animateWithDuration:0.2
-                          delay: 0.0
-                        options: UIViewAnimationOptionCurveEaseOut
-                     animations:^{
-                         wrapperView.frame = frame;
-                     }
-                     completion:^(BOOL finished){
-                         UITableView *parentTableView = [self parentTableView];
-                         [parentTableView setScrollEnabled:YES];
-                         canSlide = YES;
-                     }];
-}
-
-- (id)parentTableView {
-    UIView *v = [self superview];
-    UIView *previous = nil;
-    while (v && ![v isKindOfClass:[UITableView class]] && v != previous) {
-        previous = v;
-        v = [v superview];
-    }
-    return v == previous ? nil : v;
+    [wrapperView setContentOffset:CGPointMake(resetContentOffset, 0) animated:YES];
 }
 
 @end
