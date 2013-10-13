@@ -3,6 +3,9 @@ Slide Action Cell
 
 A UITableViewCell subclass that implements slide to action
 
+<p align="center"><img src="http://thomascullendesign.com/slide-action-cell-example.gif"/></p>
+
+
 ##Usage
 
 Import the SlideActionCell class. Inside your cellForRowAtIndexPath instantiate a SlideActionCell as if it were a normal UITableViewCell.

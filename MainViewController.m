@@ -65,7 +65,10 @@
     
     [cell setText:self.tableData[indexPath.row]];
     
-    [cell addLeftActionImage:[UIImage imageNamed:@"tick"] color:[UIColor colorWithRed:0.157 green:0.761 blue:0.839 alpha:1] width:80];
+    [cell addLeftAction:@"YES"
+                  color:[UIColor colorWithRed:0.157 green:0.761 blue:0.839 alpha:1]
+              textColor:[UIColor whiteColor]
+                  width:100];
     
     [cell addRightAction:@"DELETE"
                    color:[UIColor colorWithRed:0.922 green:0.373 blue:0.286 alpha:1]
