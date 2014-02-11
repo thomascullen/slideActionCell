@@ -17,6 +17,7 @@
         UIScrollView *cellScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, cellHeight)];
         cellScrollView.contentSize = CGSizeMake(self.frame.size.width, cellHeight);
         cellScrollView.showsHorizontalScrollIndicator = NO;
+        cellScrollView.scrollsToTop=NO;
         cellScrollView.delegate = self;
         wrapperView = cellScrollView;
         [self.contentView addSubview:wrapperView];
