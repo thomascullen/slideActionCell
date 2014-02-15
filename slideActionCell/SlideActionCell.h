@@ -14,6 +14,7 @@
 @required
 -(void)cellTriggeredLeftAction:(SlideActionCell *)cell;
 -(void)cellTriggeredRightAction:(SlideActionCell *)cell;
+-(void)cellSelectedAction:(SlideActionCell*)cell;
 
 @end
 
